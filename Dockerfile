@@ -1,6 +1,9 @@
 # 使用官方Go镜像作为构建基础
 FROM golang:1.21
 
+ENV TZ=Asia/Shanghai
+RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
+
 # 设置工作目录
 WORKDIR /app
 
