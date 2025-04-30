@@ -1,0 +1,22 @@
+
+{{define "content"}}
+<h1>每日喂奶报表</h1>
+<table border="1" cellpadding="8" cellspacing="0">
+    <tr>
+        <th>日期</th>
+        <th>总奶粉勺数</th>
+        <th>总水量（ml）</th>
+        <th>最大间隔（分钟）</th>
+        <th>最小间隔（分钟）</th>
+    </tr>
+    {{range $date, $stat := .Stats}}
+    <tr>
+        <td>{{$date}}</td>
+        <td>{{$stat.TotalMilkPowder}}</td>
+        <td>{{$stat.TotalWater}}</td>
+        <td>{{$stat.MaxInterval}}</td>
+        <td>{{$stat.MinInterval}}</td>
+    </tr>
+    {{end}}
+</table>
+{{end}}

@@ -1,0 +1,12 @@
+
+{{define "content"}}
+<h1>历史喂奶记录</h1>
+<ul>
+    {{range .All}}
+    <li>
+        <strong>{{.StartTime}} - {{.EndTime}}</strong><br>
+        奶粉：{{.MilkPowder}}，水：{{.Water}}ml，喝水：{{.WaterAfter}}ml
+    </li>
+    {{end}}
+</ul>
+{{end}}

@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>宝宝喂奶记录</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+            margin: 0;
+            padding: 0;
+            background: #f9f9f9;
+            color: #333;
+        }
+        header {
+            background-color: #4CAF50;
+            color: white;
+            padding: 1rem;
+            text-align: center;
+            font-size: 1.5rem;
+        }
+        main {
+            max-width: 800px;
+            margin: auto;
+            padding: 1rem;
+        }
+        section {
+            background: white;
+            margin-bottom: 1rem;
+            padding: 1rem;
+            border-radius: 0.5rem;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        label {
+            display: block;
+            margin: 0.5rem 0 0.2rem;
+        }
+        input, select {
+            width: 100%;
+            padding: 0.5rem;
+            box-sizing: border-box;
+            margin-bottom: 1rem;
+        }
+        button {
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            padding: 0.75rem;
+            width: 100%;
+            border-radius: 0.5rem;
+            font-size: 1rem;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 1rem;
+        }
+        th, td {
+            padding: 0.5rem;
+            border-bottom: 1px solid #ccc;
+            text-align: center;
+        }
+        th {
+            background-color: #f0f0f0;
+        }
+        @media (max-width: 600px) {
+            th, td {
+                font-size: 0.8rem;
+            }
+            header {
+                font-size: 1.2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+<header>宝宝喂奶记录系统</header>
+<main>
+    <section>
+        <h2>记录喂奶</h2>
+        <form method="POST" action="/submit">
+            <label>开始时间</label>
+            <input type="datetime-local" name="start_time" value="{{ now }}" required>
+
+            <label>结束时间</label>
+            <input type="datetime-local" name="end_time" value="{{ now }}" required>
+
+            <label>奶粉量</label>
+            <select name="milk_powder" required>
+                <option>半勺</option>
+                <option>一勺</option>
+                <option>两勺</option>
+                <option>三勺</option>
+                <option>四勺</option>
+                <option>五勺</option>
+            </select>
+
+            <label>冲奶用水量 (ml)</label>
+            <input type="number" name="water" min="0" required>
+
+            <label>喂奶后喝水量 (ml)</label>
+            <input type="number" name="water_after" min="0" required>
+
+            <button type="submit">提交记录</button>
+        </form>
+    </section>
+
+    <section>
+        <h2>最近两天记录</h2>
+        <table>
+            <tr>
+                <th>时间</th><th>奶粉</th><th>水</th><th>水后</th>
+            </tr>
+            {{range .Recent}}
+            <tr>
+                <td>{{.StartTime.Format "01-02 15:04"}}</td>
+                <td>{{.MilkPowder}}</td>
+                <td>{{.Water}}</td>
+                <td>{{.WaterAfter}}</td>
+            </tr>
+            {{end}}
+        </table>
+    </section>
+
+    <section>
+        <h2>历史报表</h2>
+        <table>
+            <tr>
+                <th>日期</th><th>奶粉总量</th><th>水总量</th><th>最小间隔</th><th>最大间隔</th>
+            </tr>
+            {{range $date, $r := .Stats}}
+            <tr>
+                <td>{{$date}}</td>
+                <td>{{$r.TotalMilkPowder}}</td>
+                <td>{{$r.TotalWater}}</td>
+                <td>{{$r.MinInterval}} 分钟</td>
+                <td>{{$r.MaxInterval}} 分钟</td>
+            </tr>
+            {{end}}
+        </table>
+    </section>
+
+    <section>
+        <h2>全部记录</h2>
+        <table>
+            <tr>
+                <th>时间</th><th>奶粉</th><th>水</th><th>水后</th>
+            </tr>
+            {{range .All}}
+            <tr>
+                <td>{{.StartTime.Format "01-02 15:04"}}</td>
+                <td>{{.MilkPowder}}</td>
+                <td>{{.Water}}</td>
+                <td>{{.WaterAfter}}</td>
+            </tr>
+            {{end}}
+        </table>
+    </section>
+</main>
+</body>
+</html>

@@ -1,0 +1,32 @@
+
+{{define "layout"}}
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <title>{{.Title}}</title>
+    <style>
+        body { font-family: Arial; margin: 0; padding: 0; background-color: #f4f4f4; }
+        nav { background: #4CAF50; padding: 10px; }
+        nav a { color: white; margin: 0 15px; text-decoration: none; font-weight: bold; }
+        .container { max-width: 800px; margin: auto; padding: 20px; background: #fff; }
+    </style>
+    <script>
+        function handleNavClick(event) {
+            event.preventDefault();
+            window.location.href = event.target.href;
+        }
+    </script>
+</head>
+<body>
+<nav>
+    <a href="/" onclick="handleNavClick(event)">记录喂奶</a>
+    <a href="/history" onclick="handleNavClick(event)">历史记录</a>
+    <a href="/report" onclick="handleNavClick(event)">喂养报表</a>
+</nav>
+<div class="container">
+    {{template "content" .}}
+</div>
+</body>
+</html>
+{{end}}
